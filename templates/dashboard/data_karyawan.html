@@ -1,0 +1,61 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Data Karyawan{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Data Karyawan</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="/input_karyawan" class="btn btn-sm btn-primary">
+            <i class="fas fa-plus me-2"></i>Tambah Karyawan
+        </a>
+    </div>
+</div>
+
+<!-- Table Card -->
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Posisi</th>
+                        <th scope="col">Departemen</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for karyawan in karyawan_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ karyawan.nama }}</td>
+                        <td>{{ karyawan.email }}</td>
+                        <td>{{ karyawan.posisi }}</td>
+                        <td>{{ karyawan.departemen }}</td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-info" data-mdb-ripple-init>
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-warning" data-mdb-ripple-init>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger" data-mdb-ripple-init>
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">Belum ada data karyawan</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
