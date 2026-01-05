@@ -10,6 +10,7 @@ source ./venv/Scripts/activate
 
 django-admin startproject karyawan .
 
+python manage.py startapp admin
 
 python manage.py runserver
 
