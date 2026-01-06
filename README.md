@@ -1,6 +1,6 @@
 # django_data_karyawan
 CRUD DJANGO
-
+1
 py -3 -m venv venv
 
 source ./venv/Scripts/activate 
