@@ -5,23 +5,23 @@
             <a href="/" 
                class="list-group-item list-group-item-action py-2 {% if request.resolver_match.url_name == 'index' %}active{% endif %}" 
                aria-current="true">
-                <i class="fas fa-tachometer-alt fa-fw me-3"></i>
+                <i class="fas fa-home fa-fw me-3"></i>
                 <span>Main dashboard</span>
             </a>
             
             <!-- Data Karyawan -->
             <a href="/data_karyawan" 
                class="list-group-item list-group-item-action py-2 {% if request.resolver_match.url_name == 'data_karyawan' %}active{% endif %}">
-                <i class="fas fa-users fa-fw me-3"></i>
+                <i class="far fa-id-card fa-fw me-3"></i>
                 <span>Data Karyawan</span>
             </a>
             
             <!-- Input Data -->
-            <a href="/input_karyawan" 
+            <!-- <a href="/input_karyawan" 
                class="list-group-item list-group-item-action py-2 {% if request.resolver_match.url_name == 'input_karyawan' %}active{% endif %}">
-                <i class="fas fa-user-plus fa-fw me-3"></i>
+                <i class="far fa-address-book fa-fw me-3"></i>
                 <span>Input Data</span>
-            </a>
+            </a> -->
             
             <!-- Logout -->
             <a href="#" class="list-group-item list-group-item-action py-2">

@@ -87,8 +87,16 @@ WSGI_APPLICATION = 'crud_karyawan.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'data_karyawan',
+        'USER': 'sa',
+        'PASSWORD': 'admin123',
+        'HOST': 'localhost',  # atau IP server SQL Server
+        'PORT': '1433',       # port default SQL Server
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+            # atau 'ODBC Driver 18 for SQL Server' jika sudah install
+        },
     }
 }
 

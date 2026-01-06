@@ -9,10 +9,11 @@
     <title>{% block title %}Dashboard{% endblock %} - MDB</title>
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" />
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css" />
+    <!-- <link rel="stylesheet" href="{% static 'css/all.min.css' %}" /> -->
     
     <!-- Google Fonts Roboto -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <link rel="stylesheet" href="{% static 'css/css2.css' %}" />
     
     <!-- MDB CSS -->
     <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
@@ -21,35 +22,46 @@
     <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
     
     <!-- Chart.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="{% static 'js/Chart.min.js' %}"></script>
+
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!--Main Navigation-->
-    {% include 'dashboard/components/header.html' %}
-    
+    <header>
+        <!-- Sidebar -->
+        {% include 'dashboard/components/sidebar.html' %}
+        <!--Main Navigation-->
+        {% include 'dashboard/components/header.html' %}
+    </header>
+
     <!--Main layout-->
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            {% include 'dashboard/components/sidebar.html' %}
-            
+    <main class="mt-4">
+                   
             <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="container pt-4">
                 {% block content %}
                 <!-- Konten halaman akan diisi di sini -->
                 {% endblock %}
-            </main>
-        </div>
-    </div>
+            </div>
+       
+        </main>
     <!--Main layout-->
     
-    {% include 'dashboard/components/footer.html' %}
-    
-    <!-- MDB JS -->
-    <script src="{% static 'js/mdb.min.js' %}"></script>
-    
-    {% block extra_js %}{% endblock %}
+    <!-- modal -->
+    {% include 'dashboard/components/modal.html' %}
+
+    <!-- jquery.min.js -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+   
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+    <script src="{% static 'js/modal.js' %}"></script>
+  
+    {% block extra_js %}
+    <script src="{% static 'js/Karyawan.js' %}"></script>
+    {% endblock %}
 </body>
 </html>
