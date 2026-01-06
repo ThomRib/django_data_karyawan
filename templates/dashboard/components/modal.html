@@ -1,18 +1,20 @@
-{% extends 'dashboard/base.html' %}
-{% load static %}
-
-{% block title %}Input Karyawan{% endblock %}
-
-{% block content %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Input Data Karyawan</h1>
-</div>
-
-<div class="row">
-    <div class="col-md-8">
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Alert Message -->
+        <div id="alertMessage" class="alert d-none" role="alert"></div>
+          
         <div class="card">
             <div class="card-body">
-                <form method="post" action="/input_karyawan">
+                <form id="formKaryawan" method="post" >
+                    <!-- <form id="formKaryawan" method="post" action="/input_karyawan"> -->
                     {% csrf_token %}
                     
                     <!-- Nama -->
@@ -43,31 +45,22 @@
                         </select>
                         <label class="form-label" for="departemen">Departemen</label>
                     </div>
-                    
+                                     
                     <!-- Buttons -->
                     <div class="d-flex justify-content-between">
                         <a href="/data_karyawan" class="btn btn-secondary" data-mdb-ripple-init>
                             <i class="fas fa-arrow-left me-2"></i>Kembali
                         </a>
-                        <button type="submit" class="btn btn-primary" data-mdb-ripple-init>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan" data-mdb-ripple-init>
                             <i class="fas fa-save me-2"></i>Simpan Data
                         </button>
                     </div>
+
                 </form>
             </div>
         </div>
+      </div>
+    
     </div>
+  </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // Initialize MDB components
-    document.addEventListener('DOMContentLoaded', function() {
-        const inputs = document.querySelectorAll('.form-outline');
-        inputs.forEach((input) => {
-            new mdb.Input(input).init();
-        });
-    });
-</script>
-{% endblock %}
