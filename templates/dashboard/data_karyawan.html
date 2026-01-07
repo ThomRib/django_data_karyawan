@@ -17,6 +17,17 @@
 <!-- Table Card data karyawan -->
 <div class="card">
     <div class="card-body">
+        <!-- Loading indicator -->
+        <div id="loading" class="text-center" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Memuat data...</p>
+        </div>
+
+        <!-- Alert untuk error -->
+        <div id="alertError" class="alert alert-danger" style="display: none;"></div>
+        
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
@@ -29,34 +40,144 @@
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for karyawan in karyawan_list %}
+                <tbody id="tableBody">
+                  <tbody id="tableBody">
+                    <!-- Data akan diisi oleh jQuery -->
                     <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ karyawan.nama }}</td>
-                        <td>{{ karyawan.email }}</td>
-                        <td>{{ karyawan.posisi }}</td>
-                        <td>{{ karyawan.departemen }}</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-info" data-mdb-ripple-init>
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-warning" data-mdb-ripple-init>
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-danger" data-mdb-ripple-init>
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6" class="text-center">Belum ada data karyawan</td>
-                    </tr>
-                    {% endfor %}
+                        <td colspan="6" class="text-center">Loading...</td>
+                    </tr>                
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+    // Load data saat halaman pertama kali dibuka
+    loadKaryawan();
+    
+    // Fungsi untuk load data karyawan
+    function loadKaryawan() {
+        // Show loading
+        $('#loading').show();
+        $('#alertError').hide();
+        $('#tableBody').html('<tr><td colspan="6" class="text-center">Memuat data...</td></tr>');
+        
+        $.ajax({
+            url: '{% url "get_karyawan" %}',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $('#loading').hide();
+                
+                if (response.success && response.data.length > 0) {
+                    displayKaryawan(response.data);
+                } else {
+                    $('#tableBody').html(
+                        '<tr><td colspan="6" class="text-center">Belum ada data karyawan</td></tr>'
+                    );
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#loading').hide();
+                $('#alertError').text('Terjadi kesalahan saat memuat data: ' + error).show();
+                $('#tableBody').html(
+                    '<tr><td colspan="6" class="text-center text-danger">Gagal memuat data</td></tr>'
+                );
+                console.error('Error:', error);
+            }
+        });
+    }
+    
+    // Fungsi untuk menampilkan data ke tabel
+    function displayKaryawan(data) {
+        let html = '';
+        
+        $.each(data, function(index, karyawan) {
+            html += '<tr>';
+            html += '<td>' + karyawan.no + '</td>';
+            html += '<td>' + karyawan.nama + '</td>';
+            html += '<td>' + karyawan.email + '</td>';
+            html += '<td>' + karyawan.posisi + '</td>';
+            html += '<td>' + karyawan.departemen + '</td>';
+            html += '<td>';
+            html += '<a href="#" class="btn btn-sm btn-warning btn-edit me-1" data-email="' + karyawan.email + '" data-nama="' + karyawan.nama + '" data-posisi="' + karyawan.posisi + '" data-departemen="' + karyawan.departemen + '" data-bs-toggle="modal" data-bs-target="#modaledit" title="Edit"><i class="fas fa-edit"></i></a>';
+            html += '<a href="#" class="btn btn-sm btn-danger btn-hapus" data-email="' + karyawan.email + '">   <i class="fas fa-trash"></i></a>';
+            html += '</td>';
+            html += '</tr>';
+        });
+        
+        $('#tableBody').html(html);
+    } 
+    
+    $(document).on('click', '.btn-hapus', function (e) {
+        e.preventDefault();
+
+        const email = $(this).data('email');
+
+        if (!confirm('Yakin ingin menghapus data ini?')) return;
+
+        $.ajax({
+            url: '/delete_karyawan/',
+            type: 'POST',
+            data: {
+                email: email,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (response) {
+                alert(response.message);
+                loadKaryawan();
+            },
+            error: function () {
+                alert('Gagal menghapus data');
+            }
+        });
+    });
+    
+    $(document).on('click', '.btn-edit', function () {
+        $('#emailedit').val($(this).data('email'));
+        $('#namaedit').val($(this).data('nama'));
+        $('#posisiedit').val($(this).data('posisi'));
+        $('#departemenedit').val($(this).data('departemen'));
+
+        // Email sebagai key → tidak boleh diubah
+        $('#emailedit').prop('readonly', true);
+    });
+
+    $('#formeditkaryawan').on('submit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/update_karyawan/',
+            type: 'POST',
+            data: {
+                email: $('#emailedit').val(),
+                nama: $('#namaedit').val(),
+                posisi: $('#posisiedit').val(),
+                departemen: $('#departemenedit').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+                    $('#modaledit').modal('hide');
+                    loadKaryawan(); // reload tabel
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+                alert('Gagal update data');
+            }
+        });
+    });    
+    
+
+    // Reload data setelah input berhasil (jika menggunakan modal)
+    $('#exampleModal').on('hidden.bs.modal', function() {
+        // Reload data setelah modal ditutup
+        loadKaryawan();
+    });
+});
+</script>
 {% endblock %}
