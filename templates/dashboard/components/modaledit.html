@@ -1,9 +1,9 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modaledit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Imput Data</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -13,31 +13,31 @@
           
         <div class="card">
             <div class="card-body">
-                <form id="formKaryawan" method="post" >
+                <form id="formeditkaryawan" method="post" >
                     <!-- <form id="formKaryawan" method="post" action="/input_karyawan"> -->
                     {% csrf_token %}
                     
                     <!-- Nama -->
                     <div class="form-outline mb-4" data-mdb-input-init>
-                        <input type="text" id="nama" name="nama" class="form-control" required />
+                        <input type="text" id="namaedit" name="nama" class="form-control" required />
                         <label class="form-label" for="nama">Nama Karyawan</label>
                     </div>
                     
                     <!-- Email -->
                     <div class="form-outline mb-4" data-mdb-input-init>
-                        <input type="email" id="email" name="email" class="form-control" required />
+                        <input type="email" id="emailedit" name="email" class="form-control" required />
                         <label class="form-label" for="email">Email</label>
                     </div>
                     
                     <!-- Posisi -->
                     <div class="form-outline mb-4" data-mdb-input-init>
-                        <input type="text" id="posisi" name="posisi" class="form-control" required />
+                        <input type="text" id="posisiedit" name="posisi" class="form-control" required />
                         <label class="form-label" for="posisi">Posisi</label>
                     </div>
                     
                     <!-- Departemen -->
                     <div class="form-outline mb-4" data-mdb-input-init>
-                        <select class="form-select" id="departemen" name="departemen" required>
+                        <select class="form-select" id="departemenedit" name="departemen" required>
                             <option value="">Pilih Departemen</option>
                             <option value="IT">IT</option>
                             <option value="HR">HR</option>
